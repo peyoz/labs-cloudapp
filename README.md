@@ -27,7 +27,9 @@
 
 1. Navigate to the "Settings" tab of your forked repository on GitHub.
 2. Go to "Secrets and variables" > "Actions".
-3. Add the required secrets as __repository secrets__:
+3. Add the required secret as __repository secrets__:
    - `KUBECONFIG`: The kubeconfig file for deploying to Kubernetes.
+   ![Create Secrets](.img/add_secrets.png)
+4. Add the required variable as __repository variables__:
    - `NAMESPACE`: The namespace for your Kubernetes deployment.
-  ![Create Secrets](.img/add_secrets.png)
+   ![Create Vars](.img/add_vars.png)
