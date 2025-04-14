@@ -8,7 +8,6 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
-
 app = Flask(__name__)
 
 # Check if the application is running in stateful mode
@@ -27,7 +26,7 @@ if STATEFUL:
     # Define the Message model
     class Message(db.Model):
         id = db.Column(db.Integer, primary_key=True)
-        timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+        timestamp = db.Column(db.String, nullable=False, default=lambda: datetime.now().strftime('%Y-%m-%dT%H:%M:%S'))
         hostname = db.Column(db.String(255), nullable=False)
         content = db.Column(db.Text, nullable=False)
 else:
