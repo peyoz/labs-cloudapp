@@ -1,0 +1,21 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: webapp-postgres
+spec:
+  instances: 1
+  imageName: ghcr.io/cloudnative-pg/postgresql:16
+  bootstrap:
+    initdb:
+      owner: app
+      database: webapp
+      postInitApplicationSQLRefs:
+        configMapRefs:
+        - name: init-sql
+          key: init.sql
+  storage:
+    size: 1Gi
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "10m"

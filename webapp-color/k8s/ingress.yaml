@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-webapp
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-appslab-cloud"
+spec:
+  ingressClassName: webapprouting.kubernetes.azure.com
+  rules:
+  - host: "#{USERHOSTNAME}#.apps.appslab.cloud"
+    http:
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: webapp
+            port:
+              name: web
+  tls:
+  - hosts:
+    - #{USERHOSTNAME}#.apps.appslab.cloud
+    secretName: app-tls
