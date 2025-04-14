@@ -81,7 +81,7 @@ jobs:
       with:
         files: '["webapp-color/k8s/*.yaml"]'
       env:
-        USERHOSTNAME: ${{ env.NAMESPACE }}
+        USERHOSTNAME: ${{ vars.NAMESPACE }}
         FULLIMAGENAME: ${{ needs.build.outputs.fullimageuri }}
     - name: Bake deployment
       uses: azure/k8s-bake@v3
@@ -93,7 +93,7 @@ jobs:
     - name: Deploy
       uses: azure/k8s-deploy@v5
       with:
-        namespace: ${{ env.NAMESPACE }}
+        namespace: ${{ vars.NAMESPACE }}
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
         images: '${{ needs.build.outputs.fullimageuri }}:${{github.run_number}}'
   
@@ -104,4 +104,4 @@ jobs:
     steps:
     - name: Get deployment info
       run: |
-        echo "Your deployment is available at: https://${{ env.NAMESPACE }}.apps.appslab.cloud"
+        echo "Your deployment is available at: https://${{ vars.NAMESPACE }}.apps.appslab.cloud"
