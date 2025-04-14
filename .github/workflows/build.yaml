@@ -1,4 +1,4 @@
-name: Build docker image
+name: Build docker image and Deploy to kubernetes
 
 on:
   workflow_dispatch:
@@ -26,6 +26,10 @@ jobs:
     name: build
     steps:
     - uses: actions/checkout@v4
+    - name: downcase imagename
+      run: |
+        GENIMAGEPATH=${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+        echo "FULLIMAGEURI=${GENIMAGEPATH,,}" >>${GITHUB_ENV}
     - name: Log in to the Container registry
       uses: docker/login-action@v3
       with:
@@ -36,7 +40,7 @@ jobs:
       uses: docker/metadata-action@v5
       id: meta
       with:
-        images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+        images: ${{ env.FULLIMAGEURI}}
         tags: |
           type=raw,value=latest,enable={{is_default_branch}}
           type=raw,value=${{github.run_number}}
@@ -69,7 +73,7 @@ jobs:
         files: '["webapp-color/k8s/*.yaml"]'
       env:
         USERHOSTNAME: ${{ secrets.NAMESPACE }}
-        FULLIMAGENAME: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+        FULLIMAGENAME: ${{ env.FULLIMAGEURI }}
 
     - name: Bake deployment
       uses: azure/k8s-bake@v3
