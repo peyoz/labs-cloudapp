@@ -95,4 +95,13 @@ jobs:
       with:
         namespace: ${{ secrets.NAMESPACE }}
         manifests: ${{ steps.bake.outputs.manifestsBundle }}
-        images: '${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{github.run_number}}'
+        images: '${{ needs.build.outputs.fullimageuri }}:${{github.run_number}}'
+  
+  info:
+    needs: deploy
+    runs-on: ubuntu-latest
+    name: info
+    steps:
+    - name: Get deployment info
+      run: |
+        echo "Your deployment is available at: https://${{ secrets.NAMESPACE }}.apps.appslab.cloud"
