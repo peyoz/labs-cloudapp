@@ -9,10 +9,10 @@ spec:
     initdb:
       owner: app
       database: webapp
-      postInitApplicationSQLRefs:
-        configMapRefs:
-        - name: init-sql
-          key: init.sql
+      # postInitApplicationSQLRefs:
+      #   configMapRefs:
+      #   - name: init-sql
+      #     key: init.sql
   storage:
     size: 1Gi
   resources:
