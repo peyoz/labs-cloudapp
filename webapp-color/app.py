@@ -25,6 +25,7 @@ if STATEFUL:
     db = SQLAlchemy(app)
     # Define the Message model
     class Message(db.Model):
+        __tablename__ = 'messages'
         id = db.Column(db.Integer, primary_key=True)
         timestamp = db.Column(db.String, nullable=False, default=lambda: datetime.now().strftime('%Y-%m-%dT%H:%M:%S'))
         hostname = db.Column(db.String(255), nullable=False)
