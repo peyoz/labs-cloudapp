@@ -5,9 +5,5 @@ resources:
   - ingress.yaml
   - cm.yaml
   - deployment.yaml
-configMapGenerator:
-  - name: init-sql
-    files:
-      - init.sql=init.sql
 generatorOptions:
   disableNameSuffixHash: true
